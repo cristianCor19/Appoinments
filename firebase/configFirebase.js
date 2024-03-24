@@ -4,6 +4,8 @@ import { PROJECT_ID, PRIVATE_KEY_ID, PRIVATE_KEY, CLIENT_EMAIL, CLIENT_ID } from
 
 const filePath = new URL('./firabase.json', import.meta.url).pathname.substring(1);
 
+console.log(filePath);
+
 let jsonData = fs.readFileSync(filePath, 'utf-8');
 
 jsonData = jsonData.replace(/PROJECT_ID/g, PROJECT_ID)
