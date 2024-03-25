@@ -2,7 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { PROJECT_ID, PRIVATE_KEY_ID, PRIVATE_KEY, CLIENT_EMAIL, CLIENT_ID } from '../config.js';
 
-const filePath = new URL('./firabase.json', import.meta.url).pathname.substring(1);
+// const filePath = new URL('./firabase.json', import.meta.url).pathname.substring(1);
+// const filePath = path.resolve(__dirname, './firabase.json');
 
 console.log(filePath);
 
