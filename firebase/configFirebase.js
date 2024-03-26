@@ -1,14 +1,4 @@
-import fs from 'fs';
-import path from 'path';
 import { PROJECT_ID, PRIVATE_KEY_ID, PRIVATE_KEY, CLIENT_EMAIL, CLIENT_ID } from '../config.js';
-
-
-
-// const filePath = new URL('./firabese.json', import.meta.url).pathname.substring(1);
-
-// console.log(filePath);
-
-// let jsonData = fs.readFileSync(filePath, 'utf-8');
 
 let jsonData = {
     "type": "service_account",
@@ -23,8 +13,6 @@ let jsonData = {
     "client_x509_cert_url": "https://www.googleapis.crobot/v1/metadata/x5firebase-adminsdk-g4ebm%40test-firebase-a4d1d.igserviceaccount.com",
     "universe_domain": "googleapis.com"
 }
-
-
             
 let jsonString = JSON.stringify(jsonData);
 

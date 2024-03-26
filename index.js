@@ -1,24 +1,30 @@
 import express from 'express';
 import cors from 'cors';
-import connectToDatabase  from './drivers/connect_db.js'
-import userRoutes from './routes/user.routes.js'
 import dotenv from 'dotenv'
+import userRoutes from './routes/user.routes.js'
+import connectToDatabase  from './drivers/connect_db.js'
+import swaggerDocs from './swagger.js'
+
 
 
 const app = express();
 
+app.use(cors())
 
 dotenv.config()
 
 app.set('port', process.env.PORT)
 app.use(express.json())
 
+connectToDatabase()
+
+app.use('/user', userRoutes)
+
 app.listen(app.get('port'), ()=>{
     console.log(`server listening to port: ${app.get('port')}`);
+    swaggerDocs(app, process.env.PORT)
 
 })
 
 
-connectToDatabase()
 
-app.use('/user', userRoutes)

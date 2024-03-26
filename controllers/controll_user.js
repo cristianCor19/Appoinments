@@ -46,7 +46,7 @@ export async function saveUser(req, res){
 
             return res.status(200).json({
                 "status": true,
-                "data": userSaveData
+                "message": 'User saved successfully'
             })
         }else{
             return res.status(500).json({
