@@ -15,6 +15,7 @@ admin.initializeApp({
 export async function saveUser(req, res){
     try {
         const {idCardNumber, name, lastname, email, password, phone, role} = req.body
+        const image = 'https://firebasestorage.googleapis.com/v0/b/test-firebase-a4d1d.appspot.com/o/images%2Fprofile-image.webp?alt=media&token=e5f92403-94c6-4749-9f11-6acd4e28ca13'
         const userFound = await User.findOne({ idCardNumber: idCardNumber})
 
 
@@ -38,6 +39,7 @@ export async function saveUser(req, res){
                 email,
                 password: hashedPassword,
                 phone,
+                image: image,
                 role,
                 uid: userReponseFirebase.uid
             })
@@ -103,6 +105,7 @@ export async function loginUser(req, res){
             "data": {
                 "uid": userLoginFirebase.uid,
                 "email": userLoginFirebase.email,
+                "_id": userFound._id,
                 "token": token
             },
             "message": "Successful login",
@@ -115,6 +118,83 @@ export async function loginUser(req, res){
             "error": error
         })
 
+    }
+}
+
+export async function profileUser(req, res){
+    try {
+        const token = req.params.token
+        const decodedToken = jwt.decode(token)
+        const idUser = decodedToken.id
+
+        console.log(idUser);
+        const userFound = await User.findById(idUser)
+
+        if(!userFound) return res.status(404).json({
+            "status": false,
+            "message": 'User not found'
+        })
+
+
+        return res.status(200).json({
+            message: 'User found successfully',
+            data: {
+                _id: userFound._id,
+                name: userFound.name,
+                lastname: userFound.lastname,
+                email: userFound.email,
+                phone: userFound.phone,
+                image: userFound.image
+            }
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            "status": false,
+            "error": error
+        })
+    }
+}
+
+export async function verifyToken(req, res) {
+    try {
+        const token = req.params.token
+        if(!token) return res.status(401).json({
+            'status': false,
+            "message": "Not exist authorization"
+        })
+
+        jwt.verify(token, process.env.TOKEN_SECRET, async (err, user) =>{
+            if(err) return res.status(401).json({
+                'status': false,
+                "message": 'Not exist authorization'
+            })
+
+            const userFound = await User.findById(user.id)
+            if(!userFound) return res.status(404).json({
+                "status": false,
+                "message": 'Not exist user'
+            })
+
+            return res.status(200).json({
+                "status": true,
+                "message": 'Exist authorization'
+            })
+        })
+    } catch (error) {
+        return res.status(500).json({
+            "status": false,
+            "message": error
+        })
+    }
+
+}
+
+export async function updateImageUser(req, res){
+    try {
+        
+    } catch (error) {
+        
     }
 }
 
