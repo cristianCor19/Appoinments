@@ -1,8 +1,10 @@
 import { Router } from "express";
 
 import {
+    profileUser,
+    verifyToken,
     saveUser,
-    loginUser
+    loginUser,
 }from '../controllers/controll_user.js'
 
 const router = Router()
@@ -12,7 +14,69 @@ const router = Router()
  * tags:
  *   name: Users
  *   description: Endpoints for users
+*/
+
+
+/**
+ * @swagger
+ * /user/profile/:token:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: User profile
+ *     description: obtain user data for profile.
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: User successfully profile.
+ *         schema:
+ *           $ref: '#/definitions/SuccessfullyProfile'
+ *       404:
+ *         description: erroneous parameters 
+ *         schema:
+ *           $ref: '#/definitions/notFoundUser'
+ *       500:
+ *         description: Server error.
+ *         schema:
+ *           $ref: '#/definitions/Error'
+ *         
+ *          
  */
+
+router.get('/profile/:token', profileUser)
+
+/**
+ * @swagger
+ * /user/verifySession/:token:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: verify session user by token
+ *     description: verify the existence of a session
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: User successfully session.
+ *         schema:
+ *           $ref: '#/definitions/statusGeneralSuccessfully'
+ *       404:
+ *         description: erroneous parameters 
+ *         schema:
+ *           $ref: '#/definitions/notFoundUser'
+ *       401: 
+ *         description: invalid authorization
+ *         schema: 
+ *           $ref: '#/definitions/notExistAuthorization'
+ *       500:
+ *         description: Server error.
+ *         schema:
+ *           $ref: '#/definitions/Error'
+ *         
+ *          
+ */
+router.get('/verifySession/:token', verifyToken)
 
 /**
  * @swagger
@@ -80,6 +144,7 @@ router.post('/login', loginUser)
 
 
 
+
 /**
  * @swagger
  * definitions:
@@ -117,7 +182,56 @@ router.post('/login', loginUser)
  *       success:
  *         type: string
  *         example: message of successfully login
- *       
+ * 
+ *   SuccessfullyProfile: 
+ *     type: object
+ *     properties:
+ *       status:
+ *         type: boolean
+ *         example: true
+ *       data: 
+ *         type: object
+ *         example: {
+ *          "_id": "id user value",
+ *           "name": "name value",
+ *           "lastname": "lastname value",
+ *           "email": "email value",
+ *           "phone": phone value,
+ *           "image": "image value"
+ *          }
+ *       message:
+ *         type: string
+ *         example: User found successfully
+ *  
+ *   notFoundUser:
+ *     type: object
+ *     properties:
+ *      status:
+ *        type: boolean
+ *        example: false
+ *      message:
+ *        type: string
+ *        example: USer not found
+ * 
+ *   statusGeneralSuccessfully:
+ *     type: object
+ *     properties:
+ *      status:
+ *        type: boolean
+ *        example: true
+ *      message:
+ *        type: string
+ *        example: message of answer successfully
+ * 
+ *   notExistAuthorization:
+ *     type: object
+ *     properties:
+ *      status:
+ *        type: boolean
+ *        example: false
+ *      message:
+ *        type: string
+ *        example: not exist authorization
  * 
  * 
  *   Role:
@@ -175,5 +289,7 @@ router.post('/login', loginUser)
  *         type: string
  *         example: dariogomez133  
  */
+
+
 
 export default router
