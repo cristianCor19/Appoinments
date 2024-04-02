@@ -5,6 +5,8 @@ import {
     verifyToken,
     saveUser,
     loginUser,
+    updateImageUser,
+    updateUser
 }from '../controllers/controll_user.js'
 
 const router = Router()
@@ -141,7 +143,67 @@ router.post('/registerUser', saveUser)
  */
 router.post('/login', loginUser)
 
+/**
+ * @swagger
+ * /user/updateImage/:token/:id:
+ *   put:
+ *     tags:
+ *       - Users
+ *     summary: User update image 
+ *     description: User update image of profile.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: User
+ *         in: body
+ *         description: Rute of the image for update.
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/UserUpdateImage'
+ *     responses:
+ *       200:
+ *         description: User successfully update image.
+ *         schema:
+ *           $ref: '#/definitions/statusGeneralSuccessfully'
+ *       500:
+ *         description: Server error.
+ *         schema:
+ *           $ref: '#/definitions/Error'
+ *         
+ *          
+ */
+router.put('/updateImage/:token/:id', updateImageUser)
 
+/**
+ * @swagger
+ * /user/updateUser/:token/:id:
+ *   put:
+ *     tags:
+ *       - Users
+ *     summary: User update  
+ *     description: User update information data.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: User
+ *         in: body
+ *         description: User data for update.
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/UserUpdate'
+ *     responses:
+ *       200:
+ *         description: User successfully update image.
+ *         schema:
+ *           $ref: '#/definitions/statusGeneralSuccessfully'
+ *       500:
+ *         description: Server error.
+ *         schema:
+ *           $ref: '#/definitions/Error'
+ *         
+ *          
+ */
+router.put('/updateUser/:token/:id', updateUser)
 
 
 
@@ -287,7 +349,44 @@ router.post('/login', loginUser)
  *        password:
  *         required: true
  *         type: string
- *         example: dariogomez133  
+ *         example: dariogomez133
+ * 
+ *   UserUpdateImage:
+ *      type: object
+ *      properties:
+ *        image:
+ *         required: true
+ *         type: string
+ *         example: https://firebasestorage.googleapis.com/v0/b/test-firebase-a4d1d.appspot.com/o/images%2Fprofile-image.webp?alt=media&token=e5f92403-94c6-4749-9f11-6acd4e28ca13
+ *         description: rute of the image
+ * 
+ * 
+ *   UserUpdate:
+ *      type: object
+ *      properties:
+ *        idCardNumber:
+ *         unique: true
+ *         required: true
+ *         type: string
+ *         example: 1002478789
+ *        name:
+ *         required: true
+ *         type: string
+ *         example: dario  
+ *        lastname: 
+ *         required: true
+ *         type: String
+ *         example: gomez
+ *        email: 
+ *         required: true
+ *         type: String 
+ *         example: cordoba@gmail.com
+ *        phone: 
+ *         required: true
+ *         type: String
+ *         example: 3224788989
+ * 
+ *          
  */
 
 

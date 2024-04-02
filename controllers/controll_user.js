@@ -192,9 +192,58 @@ export async function verifyToken(req, res) {
 
 export async function updateImageUser(req, res){
     try {
-        
+        const idUser = req.params.id
+        const {image} = req.body
+        console.log(image);
+
+        const updateImageUser = await User.findByIdAndUpdate(
+            idUser,
+            {image: image},
+            {new: true}
+        )
+
+        if (updateImageUser) {
+            return res.status(200).json({
+                'status': true,
+                'message': "Update image with successfully"
+            })
+        }
     } catch (error) {
+        return res.status(500).json({
+            'status': false,
+            "message": error
+        })
+    }
+}
+
+export async function updateUser(req, res){
+    try {
+        const idUser = req.params.id
+        const {idCardNumber, name, lastname, email, phone} = req.body
+
         
+
+        const updateUser = await User.findByIdAndUpdate(idUser, 
+            {
+                idCardNumber: idCardNumber,
+                name: name,
+                lastname: lastname,
+                email: email,
+                phone: phone
+            },
+          
+            {new: true}
+            )
+
+        return res.status(200).json({
+            "status": true,
+            "message": 'Update user with successfully'
+        })
+    } catch (error) {
+        return res.status(500).json({
+            "status": false,
+            "message": error
+        })
     }
 }
 
